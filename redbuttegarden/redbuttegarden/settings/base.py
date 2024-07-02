@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'storages',
     'taggit',
     'wagtailaccessibility',
+    'wagtail_localize',
+    'wagtail_localize.locales',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,6 +86,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
@@ -242,6 +245,14 @@ MAPBOX_API_TOKEN = "pk.eyJ1IjoiYXVzbGFuZXIiLCJhIjoiY2tlMXZ2Yml0MDNlODJ1c3p6d2Iwe
 # hCaptcha
 HCAPTCHA_SITE_KEY = os.environ.get('HCAPTCHA_SITE_KEY')
 HCAPTCHA_SECRET_KEY = os.environ.get('HCAPTCHA_SECRET_KEY')
+
+# Wagtail-localize
+WAGTAIL_I18N_ENABLED = True
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Spanish'),
+    ('zh', 'Chinese'),
+]
 
 # Comet Chat
 COMET_CHAT_APP_ID = os.environ.get('COMET_CHAT_APP_ID')

@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.urls import include, path
 from django.contrib import admin
 
@@ -27,19 +28,11 @@ if not os.environ.get('DJANGO_SETTINGS_MODULE') in ['redbuttegarden.settings.loc
 
 urlpatterns += [
     path('sitemap.xml', sitemap),
-    path('', include('home.urls', namespace='home')),
-    # May need to temporarily comment out plants app urls to migrate fresh database
-    path('plants/', include('plants.urls', namespace='plants')),
-    path('accounts/', include('custom_user.urls', namespace='custom-user')),
-    path('concerts/', include('concerts.urls', namespace='concerts')),
-    path('shop/', include('shop.urls', namespace='shop')),
 
     path('django-admin/', admin.site.urls),
-
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
 
-    path('search/', search_views.search, name='search'),
     path('api-auth/', include('rest_framework.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
@@ -56,13 +49,18 @@ if settings.DEBUG:
 
     urlpatterns += [path('__debug__/', include(debug_toolbar.urls))]
 
-urlpatterns = urlpatterns + [
+urlpatterns = urlpatterns + i18n_patterns(
+    path('', include('home.urls', namespace='home')),
+    # May need to temporarily comment out plants app urls to migrate fresh database
+    path('plants/', include('plants.urls', namespace='plants')),
+    path('accounts/', include('custom_user.urls', namespace='custom-user')),
+    path('concerts/', include('concerts.urls', namespace='concerts')),
+    path('shop/', include('shop.urls', namespace='shop')),
+    path('search/', search_views.search, name='search'),
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
     path("", include(wagtail_urls)),
 
-    # Alternatively, if you want Wagtail pages to be served from a subpath
-    # of your site, rather than the site root:
-    #    url(r"^pages/", include(wagtail_urls)),
-]
+    prefix_default_language=False,
+)

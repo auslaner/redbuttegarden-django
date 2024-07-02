@@ -12,7 +12,7 @@ services:
       - '8000:8000'
     depends_on:
       - db
-    command: gunicorn --pythonpath redbuttegarden redbuttegarden.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    command: gunicorn --pythonpath redbuttegarden redbuttegarden.wsgi:application --bind 0.0.0.0:8000 --timeout 9000
   db:
     container_name: rbg-db
     image: "postgres:12.7"
